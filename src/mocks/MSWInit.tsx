@@ -10,7 +10,7 @@ export default function MSWInit({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
   }
 
-  const isNotBrowser = typeof window !== undefined;
+  const isNotBrowser = typeof window !== "undefined";
 
   if (isNotBrowser && !enableMocking) {
     (async () => {
