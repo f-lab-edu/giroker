@@ -1,12 +1,14 @@
-import AddActivityButton from "~/features/add-activity/AddActivityButton";
+import AddButton from "~/app/activity/features/AddButton";
+import AcgivityList from "./activity/widgets/ActivityList";
 
 export default function Home() {
   return (
     <main className="flex max-w-96 m-auto min-h-screen flex-col items-center justify-between p-8">
-      <div className="flex flex-col items-center w-full gap-y-2">
+      <div className="flex flex-col items-center w-full gap-y-4">
         00:00:00
         <hr className="text-gray-500 w-full" />
-        <AddActivityButton />
+        <AddButton />
+        <AcgivityList />
       </div>
     </main>
   );
