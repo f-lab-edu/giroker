@@ -12,4 +12,8 @@ const getActivityList = http.get("/activities", () => {
   return HttpResponse.json({ data: result });
 });
 
-export const handlers = [getActivityList];
+const postActiviy = http.post("/activities", () => {
+  return HttpResponse.json({ status: 201 });
+});
+
+export const handlers = [getActivityList, postActiviy];
