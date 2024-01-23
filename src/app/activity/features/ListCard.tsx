@@ -13,7 +13,7 @@ export default function ListCard({ activity }: { activity: Activity }) {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>{activity.title}</CardTitle>
+        <CardTitle>{activity.name}</CardTitle>
         <CardDescription>{activity.description}</CardDescription>
       </CardHeader>
       <CardContent></CardContent>
