@@ -2,11 +2,11 @@
 
 import { schema } from "@hookform/resolvers/ajv/src/__tests__/__fixtures__/data.js";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { createActivity, getActivities } from "~/models/activity";
-import { keys, useGetActivities } from "~/models/quries";
+import { createActivity } from "~/models/activity";
+import { keys } from "~/models/quries";
 
 type Schema = z.infer<typeof schema>;
 
