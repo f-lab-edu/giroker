@@ -148,7 +148,7 @@ const FormMessage = React.forwardRef<
   const { error, formMessageId } = useFormField();
   const body = error ? String(error?.message) : children;
 
-  // @TODO: this affects CLS, should not be enforced
+  // @MEMO this affects CLS, should not be enforced, maybe use arai-hidden for accessibiltiy
   // if (!body) {
   //   return null
   // }
