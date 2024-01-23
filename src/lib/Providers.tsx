@@ -6,9 +6,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 export default function Providers({
   children,
 }: {
-  children: Readonly<React.ReactNode>;
+  readonly children: React.ReactNode;
 }) {
-  const [queryClient, _] = useState(
+  const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
