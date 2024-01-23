@@ -1,16 +1,17 @@
-import type { Activity } from "~/models/activity";
+"use client";
+
+import { useGetActivities } from "~/models/quries";
 import ListCard from "../features/ListCard";
-import { API_ENDPOINT } from "~/constants/env";
 
-export default async function ActivityList() {
-  const result = await fetch(`${API_ENDPOINT}/activities`, {
-    cache: "no-store",
-  }).then((data) => data.json());
+export default function ActivityList() {
+  const { data: activities } = useGetActivities();
 
-  const activities = result.data as Activity[];
+  if (!activities) {
+    return <div>추가된 활동이 없어요</div>;
+  }
 
   return (
-    <ul className="w-full">
+    <ul className="w-full flex space-y-4 flex-col">
       {activities.map((activity) => (
         <li key={activity.id} className="w-full">
           <ListCard activity={activity} />
