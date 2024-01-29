@@ -1,5 +1,7 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { AddIcon } from "~/components/icons";
 import { Button } from "~/components/ui/button";
 import {
@@ -17,11 +19,19 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { ActivitySchema, activitySchema } from "~/models/activity";
 
-import useAddActivity from "../hooks/useAddActivity";
+import { addActivity } from "../actions/addActivity";
 
 export default function ActivityAddButton() {
-  const { form, onSubmit } = useAddActivity();
+  const form = useForm<ActivitySchema>({
+    resolver: zodResolver(activitySchema),
+    defaultValues: {
+      name: "",
+      description: "",
+    },
+    mode: "onChange",
+  });
 
   return (
     <Popover>
@@ -32,7 +42,13 @@ export default function ActivityAddButton() {
       </PopoverTrigger>
       <PopoverContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+          <form
+            action={async (formData) => {
+              await addActivity(formData);
+              form.reset({ name: "", description: "" });
+            }}
+            className="space-y-2"
+          >
             <FormField
               control={form.control}
               name="name"

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import MSWInit from "~/mocks/MSWInit";
-import Providers from "~/lib/Providers";
 
 export const metadata: Metadata = {
   title: "giroker",
@@ -15,11 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="kr">
-      <body>
-        <Providers>
-          <MSWInit>{children}</MSWInit>
-        </Providers>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

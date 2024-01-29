@@ -19,6 +19,14 @@ const activitySchema = z.object({
   description: z.string().max(80, { message: "80자 이하로 설정해주세요" }),
 });
 
+async function getActivities(): Promise<Activity[]> {
+  const result = await fetch(`${API_ENDPOINT}/${ACTIVITES}`, {
+    cache: "no-store",
+  }).then((d) => d.json());
+
+  return result.data.activities;
+}
+
 async function createActivity({ body }: { body: Omit<Activity, "id"> }) {
   await fetch(`${API_ENDPOINT}/${ACTIVITES}`, {
     cache: "no-store",
@@ -28,15 +36,7 @@ async function createActivity({ body }: { body: Omit<Activity, "id"> }) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
-  }).then((d) => d.json());
-}
-
-async function getActivities(): Promise<Activity[]> {
-  const result = await fetch(`${API_ENDPOINT}/${ACTIVITES}`, {
-    cache: "no-store",
-  }).then((d) => d.json());
-
-  return result.data;
+  });
 }
 
 export {

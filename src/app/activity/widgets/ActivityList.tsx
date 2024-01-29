@@ -1,10 +1,11 @@
-"use client";
-
-import { useGetActivities } from "~/models/quries";
+import { API_ENDPOINT } from "~/constants/env";
 import ListCard from "../features/ListCard";
+import { getActivities } from "~/models/activity";
 
-export default function ActivityList() {
-  const { data: activities } = useGetActivities();
+export const ACTIVITES = "activities";
+
+export default async function ActivityList() {
+  const activities = await getActivities();
 
   if (!activities) {
     return <div>추가된 활동이 없어요</div>;
