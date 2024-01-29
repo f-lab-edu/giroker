@@ -1,8 +1,6 @@
 import ListCard from "../features/ListCard";
 import { getActivities } from "~/models/activity";
 
-export const ACTIVITES = "activities";
-
 export default async function ActivityList() {
   const activities = await getActivities();
 

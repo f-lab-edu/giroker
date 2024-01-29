@@ -1,4 +1,3 @@
-// https://github.com/mswjs/msw/issues/1644#issuecomment-1750722052
 import express from "express";
 import cors from "cors";
 
@@ -25,13 +24,17 @@ const data = {
   ],
 };
 
+const PATHS = {
+  activities: "activities",
+};
+
 app.listen(port, () => console.log(`Mock server is running on port: ${port}`));
 
-app.get("/activities", (_, res) => {
+app.get(PATHS.activities, (_, res) => {
   res.json({ data });
 });
 
-app.post("/activities", (req, res) => {
+app.post(PATHS.activities, (req, res) => {
   data.activities.unshift({ id: genId(), ...req.body });
   res.status(201).end();
 });
