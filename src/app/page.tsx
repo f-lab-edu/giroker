@@ -1,5 +1,5 @@
-import AddButton from "~/app/activity/features/AddButton";
-import AcgivityList from "./activity/widgets/ActivityList";
+import AddButton from "~/app/activities/features/AddButton";
+import AcgivityList from "./activities/widgets/ActivityList";
 
 export default async function HomePage() {
   return (
