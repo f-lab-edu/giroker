@@ -25,7 +25,7 @@ const data = {
 };
 
 const PATHS = {
-  activities: "activities",
+  activities: "/activities",
 };
 
 app.listen(port, () => console.log(`Mock server is running on port: ${port}`));
