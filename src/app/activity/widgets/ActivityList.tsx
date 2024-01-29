@@ -1,4 +1,3 @@
-import { API_ENDPOINT } from "~/constants/env";
 import ListCard from "../features/ListCard";
 import { getActivities } from "~/models/activity";
 
