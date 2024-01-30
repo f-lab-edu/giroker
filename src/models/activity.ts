@@ -5,6 +5,7 @@ type Activity = {
   id: string;
   name: string;
   description: string;
+  started_at: number;
 };
 
 export const ACTIVITES = "activities";
@@ -19,6 +20,18 @@ const activitySchema = z.object({
   description: z.string().max(80, { message: "80자 이하로 설정해주세요" }),
 });
 
+async function getActivity({
+  activityId,
+}: {
+  activityId: Activity["id"];
+}): Promise<Activity> {
+  const result = await fetch(`${API_ENDPOINT}/${ACTIVITES}/${activityId}`, {
+    cache: "no-store",
+  }).then((d) => d.json());
+
+  return result.data;
+}
+
 async function getActivities(): Promise<Activity[]> {
   const result = await fetch(`${API_ENDPOINT}/${ACTIVITES}`, {
     cache: "no-store",
@@ -29,7 +42,6 @@ async function getActivities(): Promise<Activity[]> {
 
 async function createActivity({ body }: { body: Omit<Activity, "id"> }) {
   await fetch(`${API_ENDPOINT}/${ACTIVITES}`, {
-    cache: "no-store",
     method: "post",
     headers: {
       Accept: "application/json",
@@ -39,10 +51,23 @@ async function createActivity({ body }: { body: Omit<Activity, "id"> }) {
   });
 }
 
+async function startActivity({ activity }: { activity: Activity }) {
+  await fetch(`${API_ENDPOINT}/${ACTIVITES}/${activity.id}/start`, {
+    method: "post",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(activity),
+  });
+}
+
 export {
   type Activity,
   type ActivitySchema,
   activitySchema,
-  createActivity,
+  getActivity,
   getActivities,
+  createActivity,
+  startActivity,
 };
