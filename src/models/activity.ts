@@ -1,11 +1,14 @@
 import { z } from "zod";
 import { API_ENDPOINT } from "~/constants/env";
 
+type Status = "play" | "stop";
+
 type Activity = {
   id: string;
   name: string;
   description: string;
   started_at: number;
+  status: Status;
 };
 
 export const ACTIVITES = "activities";

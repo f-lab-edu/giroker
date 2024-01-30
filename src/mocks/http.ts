@@ -21,6 +21,7 @@ const data: { activities: Activity[] } = {
       name: "사이드 프로젝트/giroker",
       description: "시간단위로 기록하는 프로젝트",
       started_at: -1,
+      status: "stop",
     },
   ],
 };
@@ -51,7 +52,16 @@ app.post(PATHS.activities + "/:activity_id/start", (req, res) => {
   const id = req.params["activity_id"];
   const index = data.activities.findIndex((activity) => activity.id === id);
 
-  data.activities[index] = { ...req.body };
+  data.activities[index] = { ...req.body, status: "play" };
+
+  res.end();
+});
+
+app.post(PATHS.activities + "/:activity_id/stop", (req, res) => {
+  const id = req.params["activity_id"];
+  const index = data.activities.findIndex((activity) => activity.id === id);
+
+  data.activities[index] = { ...req.body, status: "stop" };
 
   res.end();
 });
