@@ -1,6 +1,7 @@
 import BasicLayout from "~/components/ui/BasicLayout";
 import { Textarea } from "~/components/ui/textarea";
 import { getActivity } from "~/models/activity";
+import Timer from "../features/Timer";
 
 export default function ActivitiesStartPage({
   params,
@@ -10,19 +11,10 @@ export default function ActivitiesStartPage({
   return (
     <BasicLayout>
       <div className="flex flex-col items-center w-full gap-y-4">
-        <Timer />
+        <Timer now={0} />
         <Editor activityId={params["activity-id"]} />
       </div>
     </BasicLayout>
-  );
-}
-
-function Timer() {
-  return (
-    <>
-      00:00:00
-      <hr className="text-gray-500 w-full" />
-    </>
   );
 }
 
@@ -39,7 +31,7 @@ async function Editor({ activityId }: { activityId: string }) {
         <h1 className="font-bold">{activity.name}</h1>
         <p className="text-sm text-gray-500">{activity.description}</p>
       </div>
-      <Textarea autoFocus className="h-[80vh]" />
+      <Textarea autoFocus className="h-[70vh]" />
     </section>
   );
 }
