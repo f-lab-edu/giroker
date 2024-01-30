@@ -1,11 +1,15 @@
 import { z } from "zod";
 import { API_ENDPOINT } from "~/constants/env";
 
+type Status = "idle" | "playing" | "stopped";
+
 type Activity = {
   id: string;
   name: string;
   description: string;
   started_at: number;
+  stopped_at: number;
+  status: Status;
 };
 
 export const ACTIVITES = "activities";
@@ -42,7 +46,7 @@ async function getActivities(): Promise<Activity[]> {
 
 async function createActivity({ body }: { body: Omit<Activity, "id"> }) {
   await fetch(`${API_ENDPOINT}/${ACTIVITES}`, {
-    method: "post",
+    method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -51,14 +55,37 @@ async function createActivity({ body }: { body: Omit<Activity, "id"> }) {
   });
 }
 
-async function startActivity({ activity }: { activity: Activity }) {
-  await fetch(`${API_ENDPOINT}/${ACTIVITES}/${activity.id}/start`, {
-    method: "post",
+async function startActivity({
+  activityId,
+  startedAt,
+}: {
+  activityId: Activity["id"];
+  startedAt: Activity["started_at"];
+}) {
+  await fetch(`${API_ENDPOINT}/${ACTIVITES}/${activityId}/start`, {
+    method: "PATCH",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(activity),
+    body: JSON.stringify({ startedAt }),
+  });
+}
+
+async function stopActivity({
+  activityId,
+  stoppedAt,
+}: {
+  activityId: Activity["id"];
+  stoppedAt: Activity["stopped_at"];
+}) {
+  await fetch(`${API_ENDPOINT}/${ACTIVITES}/${activityId}/stop`, {
+    method: "PATCH",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ stoppedAt }),
   });
 }
 
@@ -70,4 +97,5 @@ export {
   getActivities,
   createActivity,
   startActivity,
+  stopActivity,
 };

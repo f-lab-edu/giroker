@@ -7,7 +7,6 @@ const port = 9090;
 
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:3000" }));
-
 let count = 0;
 
 const genId = () => {
@@ -21,12 +20,16 @@ const data: { activities: Activity[] } = {
       name: "사이드 프로젝트/giroker",
       description: "시간단위로 기록하는 프로젝트",
       started_at: -1,
+      stopped_at: -1,
+      status: "idle",
     },
   ],
 };
 
 const PATHS = {
   activities: "/activities",
+  activitiesStart: "/activities/:activityId/start",
+  activitiesStop: "/activities/:activityId/stop",
 };
 
 app.listen(port, () => console.log(`Mock server is running on port: ${port}`));
@@ -47,11 +50,28 @@ app.post(PATHS.activities, (req, res) => {
   res.status(201).end();
 });
 
-app.post(PATHS.activities + "/:activity_id/start", (req, res) => {
-  const id = req.params["activity_id"];
+app.patch(PATHS.activitiesStart, (req, res) => {
+  const id = req.params["activityId"];
   const index = data.activities.findIndex((activity) => activity.id === id);
 
-  data.activities[index] = { ...req.body };
+  data.activities[index] = {
+    ...data.activities[index],
+    ...req.body,
+    status: "playing",
+  };
 
-  res.end();
+  res.status(204).end();
+});
+
+app.patch(PATHS.activitiesStop, (req, res) => {
+  const id = req.params["activityId"];
+  const index = data.activities.findIndex((activity) => activity.id === id);
+
+  data.activities[index] = {
+    ...data.activities[index],
+    ...req.body,
+    status: "stopped",
+  };
+
+  res.status(204).end();
 });

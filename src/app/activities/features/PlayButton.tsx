@@ -18,7 +18,7 @@ export default function PlayButton(
       activity: { ...activity, started_at: new Date().getTime() },
     });
 
-    router.push(`/activities/${activity.id}/start`);
+    router.push(`/activities/${activity.id}`);
   }
 
   return (
