@@ -5,13 +5,13 @@ import { Button } from "~/components/ui/button";
 import useTimer from "~/hooks/useTimer";
 
 export default function Timer() {
-  const { time, status, stopAndPlay } = useTimer({ now: 0 });
+  const { time, status, toggleTimer } = useTimer({ now: 0 });
 
   return (
     <>
       <div className="flex gap-x-4">
         <span className="text-2xl">{time}</span>
-        <Button variant="outline" onClick={stopAndPlay}>
+        <Button variant="outline" onClick={toggleTimer}>
           {status === "play" ? <PauseIcon /> : <PlayIcon />}
         </Button>
       </div>

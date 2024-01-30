@@ -56,7 +56,7 @@ export default function useTimer({ now }: { now: number }) {
     await stopActivity({ activityId, stoppedAt: Date.now() });
   };
 
-  const stopAndPlay = () => {
+  const toggleTimer = () => {
     if (status === "play") {
       stop();
       setStatus("pause");
@@ -70,5 +70,5 @@ export default function useTimer({ now }: { now: number }) {
     }
   };
 
-  return { time: secondsToHHMMSS(time), status, stopAndPlay };
+  return { time: secondsToHHMMSS(time), status, toggleTimer };
 }
