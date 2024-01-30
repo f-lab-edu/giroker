@@ -3,16 +3,17 @@ import { Textarea } from "~/components/ui/textarea";
 import { getActivity } from "~/models/activity";
 import Timer from "./features/Timer";
 
-export default function ActivitiesStartPage({
+export default async function ActivitiesStartPage({
   params,
 }: {
   params: { "activity-id": string };
 }) {
+  const activityId = params["activity-id"];
   return (
     <BasicLayout>
       <div className="flex flex-col items-center w-full gap-y-4">
-        <Timer now={0} />
-        <Editor activityId={params["activity-id"]} />
+        <Timer />
+        <Editor activityId={activityId} />
       </div>
     </BasicLayout>
   );
