@@ -1,6 +1,6 @@
 import React from "react";
 
-export default async function BasicLayout({
+export default function BasicLayout({
   children,
 }: {
   children: React.ReactNode;
