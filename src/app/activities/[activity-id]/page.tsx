@@ -1,7 +1,7 @@
 import BasicLayout from "~/components/ui/BasicLayout";
 import { Textarea } from "~/components/ui/textarea";
 import { getActivity } from "~/models/activity";
-import Timer from "../features/Timer";
+import Timer from "./features/Timer";
 
 export default function ActivitiesStartPage({
   params,
