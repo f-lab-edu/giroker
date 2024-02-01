@@ -12,8 +12,6 @@ type Activity = {
   status: Status;
 };
 
-export const ACTIVITES = "activities";
-
 type ActivitySchema = z.infer<typeof activitySchema>;
 
 const activitySchema = z.object({
@@ -23,6 +21,8 @@ const activitySchema = z.object({
     .max(30, { message: "30자 이하로 설정해주세요" }),
   description: z.string().max(80, { message: "80자 이하로 설정해주세요" }),
 });
+
+const ACTIVITES = "activities";
 
 async function getActivity({
   activityId,
@@ -93,6 +93,7 @@ export {
   type Activity,
   type ActivitySchema,
   activitySchema,
+  ACTIVITES,
   getActivity,
   getActivities,
   createActivity,
