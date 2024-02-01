@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:mock": "concurrently --kill-others  \"NEXT_PUBLIC_API_MOCKING=enable next dev\" \"pnpx tsx watch ./src/mocks/http.ts\"",
-    "build": "next build",
+    "build": "NEXT_PUBLIC_API_ENDPOINT=http://localhost:9090 next build",
     "start": "next start",
     "lint": "next lint"
   },

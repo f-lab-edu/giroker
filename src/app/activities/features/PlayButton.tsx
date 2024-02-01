@@ -15,7 +15,8 @@ export default function PlayButton(
 
   async function handleStartActivity() {
     await startActivity({
-      activity: { ...activity, started_at: new Date().getTime() },
+      activityId: activity.id,
+      startedAt: new Date().getTime(),
     });
 
     router.push(`/activities/${activity.id}`);
