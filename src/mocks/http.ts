@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { Activity } from "~/models/activity";
+import { Activity } from "~/app/activities/model";
 
 const app = express();
 const port = 9090;
