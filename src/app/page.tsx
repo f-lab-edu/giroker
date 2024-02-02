@@ -2,6 +2,8 @@ import AddButton from "~/app/activities/features/AddButton";
 import AcgivityList from "./activities/widgets/ActivityList";
 import BasicLayout from "~/components/ui/BasicLayout";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   return (
     <BasicLayout>

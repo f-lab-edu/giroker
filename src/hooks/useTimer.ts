@@ -1,6 +1,6 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { startActivity, stopActivity } from "~/models/activity";
+import { startActivity, stopActivity } from "~/app/activities/model";
 
 /**
  * ```ts

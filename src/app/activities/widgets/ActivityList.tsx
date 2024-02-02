@@ -1,8 +1,9 @@
 import ListCard from "../features/ListCard";
 import { getActivities } from "../model";
+import { repository } from "../repository";
 
 export default async function ActivityList() {
-  const activities = await getActivities();
+  const activities = await getActivities({ repository });
 
   if (!activities) {
     return <div>추가된 활동이 없어요</div>;

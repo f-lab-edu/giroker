@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { PlayIcon } from "~/components/icons";
 import { Button } from "~/components/ui/button";
-import { Activity, startActivity } from "~/models/activity";
+import { Activity, startActivity } from "../model";
 
 export default function PlayButton(
   props: React.ComponentPropsWithoutRef<"button"> & { activity: Activity },

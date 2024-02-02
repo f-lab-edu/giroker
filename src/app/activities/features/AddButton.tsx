@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { ActivitySchema, activitySchema } from "~/models/activity";
+import { ActivitySchema, activitySchema } from "../model";
 
 import { addActivity } from "../actions/addActivity";
 

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { API_ENDPOINT } from "~/constants/env";
+import { ActivityRepository } from "./repository";
 
 type Status = "idle" | "playing" | "stopped";
 
@@ -26,33 +27,36 @@ const ACTIVITES = "activities";
 
 async function getActivity({
   activityId,
+  repository,
 }: {
   activityId: Activity["id"];
-}): Promise<Activity> {
-  const result = await fetch(`${API_ENDPOINT}/${ACTIVITES}/${activityId}`, {
-    cache: "no-store",
-  }).then((d) => d.json());
+  repository: ActivityRepository;
+}) {
+  const result = await repository.findById({ activityId });
 
-  return result.data;
+  return result;
 }
 
-async function getActivities(): Promise<Activity[]> {
-  const result = await fetch(`${API_ENDPOINT}/${ACTIVITES}`, {
-    cache: "no-store",
-  }).then((d) => d.json());
+async function getActivities({
+  order = "desc",
+  repository,
+}: {
+  order?: "asc" | "desc";
+  repository: ActivityRepository;
+}) {
+  const result = await repository.findAll({ order });
 
-  return result.data.activities;
+  return result;
 }
 
-async function createActivity({ body }: { body: Omit<Activity, "id"> }) {
-  await fetch(`${API_ENDPOINT}/${ACTIVITES}`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
+async function createActivity({
+  activity,
+  repository,
+}: {
+  activity: Omit<Activity, "id">;
+  repository: ActivityRepository;
+}) {
+  await repository.save({ activity });
 }
 
 async function startActivity({

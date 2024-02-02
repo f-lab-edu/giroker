@@ -1,7 +1,8 @@
 import BasicLayout from "~/components/ui/BasicLayout";
 import { Textarea } from "~/components/ui/textarea";
-import { getActivity } from "~/models/activity";
+import { getActivity } from "../model";
 import Timer from "./features/Timer";
+import { repository } from "../repository";
 
 export default async function ActivitiesStartPage({
   params,
@@ -24,7 +25,7 @@ async function Editor({ activityId }: { activityId: string }) {
     return "존재하지 않는 활동이에요!";
   }
 
-  const activity = await getActivity({ activityId });
+  const activity = await getActivity({ repository, activityId });
 
   return (
     <section className="w-full">

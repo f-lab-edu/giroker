@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import PlayButton from "./PlayButton";
-import { type Activity } from "~/models/activity";
+import { type Activity } from "../model";
 
 export default function ListCard({ activity }: { activity: Activity }) {
   return (
