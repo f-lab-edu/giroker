@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { API_ENDPOINT } from "~/constants/env";
 import { ActivityRepository } from "./repository";
 
 type Status = "idle" | "playing" | "stopped";
@@ -61,36 +60,25 @@ async function createActivity({
 
 async function startActivity({
   activityId,
-  startedAt,
+  repository,
 }: {
   activityId: Activity["id"];
-  startedAt: Activity["started_at"];
+  repository: ActivityRepository;
 }) {
-  await fetch(`${API_ENDPOINT}/${ACTIVITES}/${activityId}/start`, {
-    method: "PATCH",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ startedAt }),
+  await repository.start({
+    activityId,
+    startedAt: Date.now() / 1000.0,
   });
 }
 
 async function stopActivity({
   activityId,
-  stoppedAt,
+  repository,
 }: {
   activityId: Activity["id"];
-  stoppedAt: Activity["stopped_at"];
+  repository: ActivityRepository;
 }) {
-  await fetch(`${API_ENDPOINT}/${ACTIVITES}/${activityId}/stop`, {
-    method: "PATCH",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ stoppedAt }),
-  });
+  await repository.stop({ activityId, stoppedAt: Date.now() / 1000.0 });
 }
 
 export {

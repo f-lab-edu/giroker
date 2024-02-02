@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { PlayIcon } from "~/components/icons";
 import { Button } from "~/components/ui/button";
-import { Activity, startActivity } from "../model";
+import { Activity } from "../model";
+import { startActivityAction } from "../action";
 
 export default function PlayButton(
   props: React.ComponentPropsWithoutRef<"button"> & { activity: Activity },
@@ -13,11 +14,8 @@ export default function PlayButton(
 
   const router = useRouter();
 
-  async function handleStartActivity() {
-    await startActivity({
-      activityId: activity.id,
-      startedAt: new Date().getTime(),
-    });
+  function handleStartActivity() {
+    startActivityAction({ activityId: activity.id });
 
     router.push(`/activities/${activity.id}`);
   }

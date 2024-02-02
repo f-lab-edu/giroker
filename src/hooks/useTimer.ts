@@ -1,6 +1,9 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { startActivity, stopActivity } from "~/app/activities/model";
+import {
+  startActivityAction,
+  stopActivityAction,
+} from "~/app/activities/action";
 
 /**
  * ```ts
@@ -24,9 +27,7 @@ export default function useTimer({ now }: { now: number }) {
 
     setId(id);
 
-    (async () => {
-      await startActivity({ activityId, startedAt: Date.now() });
-    })();
+    startActivityAction({ activityId });
 
     return () => {
       clearInterval(id);
@@ -40,20 +41,20 @@ export default function useTimer({ now }: { now: number }) {
     return [h, m, s].map((v) => (v < 10 ? "0" + v : v)).join(":");
   };
 
-  const start = async () => {
+  const start = () => {
     const id = setInterval(() => {
       setTime((time) => time + 1);
     }, 1000);
 
     setId(id);
 
-    await startActivity({ activityId, startedAt: Date.now() });
+    startActivityAction({ activityId });
   };
 
-  const stop = async () => {
+  const stop = () => {
     clearInterval(id);
 
-    await stopActivity({ activityId, stoppedAt: Date.now() });
+    stopActivityAction({ activityId });
   };
 
   const toggleTimer = () => {

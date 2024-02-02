@@ -5,7 +5,7 @@ import { repository } from "../repository";
 export default async function ActivityList() {
   const activities = await getActivities({ repository });
 
-  if (!activities) {
+  if (!activities?.length) {
     return <div>추가된 활동이 없어요</div>;
   }
 

@@ -20,8 +20,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { ActivitySchema, activitySchema } from "../model";
-
-import { addActivity } from "../actions/addActivity";
+import { createActivityAction } from "../action";
 
 export default function ActivityAddButton() {
   const form = useForm<ActivitySchema>({
@@ -44,7 +43,7 @@ export default function ActivityAddButton() {
         <Form {...form}>
           <form
             action={async (formData) => {
-              await addActivity(formData);
+              await createActivityAction(formData);
               form.reset({ name: "", description: "" });
             }}
             className="space-y-2"
