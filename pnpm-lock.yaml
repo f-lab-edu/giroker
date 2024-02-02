@@ -23,18 +23,12 @@ dependencies:
   '@vercel/postgres':
     specifier: ^0.7.2
     version: 0.7.2
-  '@vercel/postgres-kysely':
-    specifier: ^0.7.2
-    version: 0.7.2(kysely@0.27.2)
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
   clsx:
     specifier: ^2.1.0
     version: 2.1.0
-  kysely:
-    specifier: ^0.27.2
-    version: 0.27.2
   next:
     specifier: 14.0.4
     version: 14.0.4(react-dom@18.2.0)(react@18.2.0)
@@ -951,16 +945,6 @@ packages:
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
-
-  /@vercel/postgres-kysely@0.7.2(kysely@0.27.2):
-    resolution: {integrity: sha512-2sLPgcrZg1YzG6dQMuS1O+63cbK9sUHxpmhz0pN8PMccca1VpK571oONuv5OsD1xzEUmFwRtOdwIMXUWSMMDrA==}
-    engines: {node: '>=14.6'}
-    peerDependencies:
-      kysely: ^0.24.2 || ^0.25.0 || ^0.26.0 || ^0.27.0
-    dependencies:
-      '@vercel/postgres': 0.7.2
-      kysely: 0.27.2
-    dev: false
 
   /@vercel/postgres@0.7.2:
     resolution: {integrity: sha512-IqR/ZAvoPGcPaXl9eWWB5KaA+w/81RzZa/18P4izQRHpNBkTGt9HwGfYi9+wut5UgxNq4QSX9A7HIQR6QDvX2Q==}
@@ -2553,11 +2537,6 @@ packages:
     dependencies:
       json-buffer: 3.0.1
     dev: true
-
-  /kysely@0.27.2:
-    resolution: {integrity: sha512-DmRvEfiR/NLpgsTbSxma2ldekhsdcd65+MNiKXyd/qj7w7X5e3cLkXxcj+MypsRDjPhHQ/CD5u3Eq1sBYzX0bw==}
-    engines: {node: '>=14.0.0'}
-    dev: false
 
   /language-subtag-registry@0.3.22:
     resolution: {integrity: sha512-tN0MCzyWnoz/4nHS6uxdlFWoUZT7ABptwKPQ52Ea7URk6vll88bWBVhodtnlfEuCcKWNGoc+uGbw1cwa9IKh/w==}
