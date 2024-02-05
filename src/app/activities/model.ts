@@ -5,6 +5,7 @@ type Status = "idle" | "playing" | "stopped";
 
 type Activity = {
   id: string;
+  userId: string;
   name: string;
   description: string;
   started_at: number;

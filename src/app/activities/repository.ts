@@ -1,5 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { Activity } from "./model";
+import { auth } from "~/lib/auth";
 
 export type ActivityRepository = {
   findById({ activityId }: { activityId: Activity["id"] }): Promise<Activity>;
@@ -23,34 +24,47 @@ export type ActivityRepository = {
 
 export const repository: ActivityRepository = {
   async findById({ activityId }) {
-    const result = await sql`SELECT * FROM activities where id = ${activityId}`;
+    const session = await auth();
+
+    const result =
+      await sql`SELECT * FROM activities WHERE "userId" = ${session.user.id} AND id = ${activityId}`;
     return result.rows[0] as unknown as Activity;
   },
 
   async findAll({ order }) {
+    const session = await auth();
+
     const result = await sql.query(
-      `SELECT * FROM activities ORDER BY Id ${order}`,
+      `SELECT * FROM activities WHERE "userId" = ${session.user.id} ORDER BY Id ${order}`,
     );
 
     return result.rows as unknown as Activity[];
   },
 
   async save({ activity }: { activity: Omit<Activity, "id"> }) {
-    await sql.query(`INSERT INTO activities (name, description) 
-                     VALUES ('${activity.name} ', '${activity.description}')`);
+    const session = await auth();
+
+    await sql.query(`INSERT INTO activities ("userId", name, description)
+                     VALUES ('${session.user.id}', '${activity.name} ', '${activity.description}')`);
   },
 
   async start({ activityId, startedAt }) {
+    const session = await auth();
+
     await sql.query(`UPDATE activities
                      SET status = 'playing',
                          started_at = to_timestamp(${startedAt})
-                     WHERE id = ${activityId}`);
+                     WHERE "userId" = ${session.user.id}
+                           AND id = ${activityId}`);
   },
 
   async stop({ activityId, stoppedAt }) {
+    const session = await auth();
+
     await sql.query(`UPDATE activities
                      SET status = 'stopped',
                          stopped_at = to_timestamp(${stoppedAt})
-                     WHERE id = ${activityId}`);
+                     WHERE "userId" = ${session.user.id}
+                           AND id = ${activityId}`);
   },
 };
