@@ -11,14 +11,14 @@ export type ActivityRepository = {
     startedAt,
   }: {
     activityId: Activity["id"];
-    startedAt: Activity["started_at"];
+    startedAt: number;
   }): Promise<void>;
   stop({
     activityId,
     stoppedAt,
   }: {
     activityId: Activity["id"];
-    stoppedAt: Activity["stopped_at"];
+    stoppedAt: number;
   }): Promise<void>;
 };
 

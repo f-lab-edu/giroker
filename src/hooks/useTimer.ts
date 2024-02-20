@@ -13,7 +13,7 @@ import {
  * ```
  */
 export default function useTimer({ now }: { now: number }) {
-  const [time, setTime] = useState(now);
+  const [time, setTime] = useState(now / 1000);
   const [id, setId] = useState<NodeJS.Timeout>();
   const [status, setStatus] = useState<"play" | "pause">("play");
 

@@ -33,6 +33,8 @@ export const config = {
       clientId: GOOGLE.ID,
       clientSecret: GOOGLE.SECRET,
       profile: (profile) => {
+        // @MEMO: id will be genereated by db serial, not using real sub.
+        // reture id for avoid error in next-auth
         return { ...profile, id: profile?.sub, image: profile?.picture };
       },
     }),

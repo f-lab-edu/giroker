@@ -8,8 +8,8 @@ type Activity = {
   userId: string;
   name: string;
   description: string;
-  started_at: number;
-  stopped_at: number;
+  started_at: Date;
+  stopped_at: Date;
   status: Status;
 };
 

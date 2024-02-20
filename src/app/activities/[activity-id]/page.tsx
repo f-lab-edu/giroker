@@ -1,6 +1,6 @@
 import BasicLayout from "~/components/ui/BasicLayout";
 import { Textarea } from "~/components/ui/textarea";
-import { getActivity } from "../model";
+import { Activity, getActivity } from "../model";
 import Timer from "./features/Timer";
 import { repository } from "../repository";
 
@@ -10,22 +10,23 @@ export default async function ActivitiesStartPage({
   params: { "activity-id": string };
 }) {
   const activityId = params["activity-id"];
+
+  const activity = await getActivity({ repository, activityId });
+
   return (
     <BasicLayout>
       <div className="flex flex-col items-center w-full gap-y-4">
-        <Timer />
-        <Editor activityId={activityId} />
+        <Timer activity={activity} />
+        <Editor activity={activity} />
       </div>
     </BasicLayout>
   );
 }
 
-async function Editor({ activityId }: { activityId: string }) {
-  if (!activityId) {
-    return "존재하지 않는 활동이에요!";
+async function Editor({ activity }: { activity: Activity }) {
+  if (!activity) {
+    return "존재하지 않는 작업이에요!";
   }
-
-  const activity = await getActivity({ repository, activityId });
 
   return (
     <section className="w-full">
