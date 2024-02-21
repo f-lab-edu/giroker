@@ -11,6 +11,7 @@ CREATE TABLE activities
   "userId" INTEGER NOT NULL,
   name VARCHAR(255) NOT NULL,
   description TEXT,
+  memo TEXT,
   started_at TIMESTAMPTZ,
   stopped_at TIMESTAMPTZ,
   status status_enum DEFAULT 'idle' NOT NULL,
@@ -18,14 +19,6 @@ CREATE TABLE activities
   PRIMARY KEY (id)
 );
 
-CREATE TABLE memos 
-(
-  id SERIAL,
-  memo TEXT,
-  activity_id INTERGER,
-
-  PRIMARY KEY (id)
-)
 
 CREATE TABLE verification_token
 (

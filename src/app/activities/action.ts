@@ -1,7 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { Activity, createActivity, startActivity, stopActivity } from "./model";
+import {
+  Activity,
+  createActivity,
+  updateActivity,
+  startActivity,
+  stopActivity,
+} from "./model";
 import { repository } from "./repository";
 
 export async function createActivityAction(formData: FormData) {
@@ -12,6 +18,14 @@ export async function createActivityAction(formData: FormData) {
 
   await createActivity({ activity: data, repository });
   revalidatePath("/");
+}
+
+export async function updateActivityAction({
+  activity,
+}: {
+  activity: Activity;
+}) {
+  await updateActivity({ activity, repository });
 }
 
 export async function startActivityAction({
