@@ -13,10 +13,6 @@ export default async function ActivitiesStartPage({
 
   const activity = await getActivity({ repository, activityId });
 
-  if (!activity) {
-    return;
-  }
-
   return (
     <BasicLayout>
       {!activity ? (
