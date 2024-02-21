@@ -6,6 +6,7 @@ export type ActivityRepository = {
   findById({ activityId }: { activityId: Activity["id"] }): Promise<Activity>;
   findAll({ order }: { order: "asc" | "desc" }): Promise<Activity[]>;
   save({ activity }: { activity: Omit<Activity, "id"> }): Promise<void>;
+  update({ activity }: { activity: Activity }): Promise<void>;
   start({
     activityId,
     startedAt,
@@ -46,6 +47,15 @@ export const repository: ActivityRepository = {
 
     await sql.query(`INSERT INTO activities ("userId", name, description)
                      VALUES ('${session.user.id}', '${activity.name} ', '${activity.description}')`);
+  },
+
+  async update({ activity }: { activity: Activity }) {
+    const session = await auth();
+
+    await sql.query(`UPDATE activities
+                     SET memo = '${activity.memo}' 
+                     WHERE "userId" = ${session.user.id}
+                            AND id = ${activity.id}`);
   },
 
   async start({ activityId, startedAt }) {

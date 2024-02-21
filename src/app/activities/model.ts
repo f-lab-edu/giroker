@@ -8,6 +8,7 @@ type Activity = {
   userId: string;
   name: string;
   description: string;
+  memo: string;
   started_at: Date;
   stopped_at: Date;
   status: Status;
@@ -57,6 +58,16 @@ async function createActivity({
   repository: ActivityRepository;
 }) {
   await repository.save({ activity });
+}
+
+export async function updateActivity({
+  activity,
+  repository,
+}: {
+  activity: Activity;
+  repository: ActivityRepository;
+}) {
+  await repository.update({ activity });
 }
 
 async function startActivity({
