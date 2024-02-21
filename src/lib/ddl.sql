@@ -14,7 +14,6 @@ CREATE TABLE activities
   started_at TIMESTAMPTZ,
   stopped_at TIMESTAMPTZ,
   status status_enum DEFAULT 'idle' NOT NULL,
-  memo_id INTEGER,
 
   PRIMARY KEY (id)
 );
@@ -23,6 +22,7 @@ CREATE TABLE memos
 (
   id SERIAL,
   memo TEXT,
+  activity_id INTERGER,
 
   PRIMARY KEY (id)
 )
