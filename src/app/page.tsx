@@ -28,8 +28,9 @@ export default async function HomePage() {
               activities.reduce((time, activity) => {
                 if (activity.stopped_at && activity.status === "stopped") {
                   return (
-                    activity.stopped_at.getTime() -
-                    activity.started_at.getTime()
+                    time +
+                    (activity.stopped_at.getTime() -
+                      activity.started_at.getTime())
                   );
                 }
 
