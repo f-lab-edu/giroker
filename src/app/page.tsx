@@ -21,29 +21,32 @@ export default async function HomePage() {
   return (
     <BasicLayout>
       <div className="flex flex-col items-center w-full gap-y-4">
-        <div>
-          <p className="text-gray-500 text-sm text-center">총 작업한 시간</p>
-          <p className="text-2xl">
-            {secondsToHHMMSS(
-              activities.reduce((time, activity) => {
-                if (activity.stopped_at && activity.status === "stopped") {
-                  return (
-                    time +
-                    (activity.stopped_at.getTime() -
-                      activity.started_at.getTime())
-                  );
-                }
-
-                return time;
-              }, 0),
-            )}
-          </p>
-        </div>
+        <DateController />
+        <CurrentTaskTime activities={activities} />
         <hr className="text-gray-500 w-full" />
         <AddButton />
         <AcgivityList activities={activities} />
       </div>
     </BasicLayout>
+  );
+}
+
+function CurrentTaskTime({ activities }: { activities: Activity[] }) {
+  return (
+    <div className="text-center">
+      <p className="text-gray-500 text-sm ">현재 작업 시간</p>
+      <p className="text-2xl">
+        {secondsToHHMMSS(
+          activities.reduce((time, activity) => {
+            return activity.stopped_at && activity.status === "stopped"
+              ? time +
+                  (activity.stopped_at.getTime() -
+                    activity.started_at.getTime())
+              : time;
+          }, 0),
+        )}
+      </p>
+    </div>
   );
 }
 
