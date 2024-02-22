@@ -4,8 +4,9 @@ import BasicLayout from "~/components/ui/BasicLayout";
 import { auth } from "~/lib/auth";
 import { redirect } from "next/navigation";
 import { SIGNIN } from "~/constants/route";
-import { getActivities } from "./activities/model";
+import { Activity, getActivities } from "./activities/model";
 import { repository } from "./activities/repository";
+import DateController from "./activities/features/DateController";
 
 export const dynamic = "force-dynamic";
 
