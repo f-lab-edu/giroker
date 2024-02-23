@@ -22,14 +22,12 @@ export default function ListCard({ activity }: { activity: Activity }) {
       <CardContent>
         {activity.started_at && (
           <p className="text-gray-500 text-xs">
-            시작시각:
-            {activity.started_at.toLocaleTimeString()}
+            시작시각: {HHMMSS(activity.started_at)}
           </p>
         )}
         {activity.stopped_at && (
           <p className="text-gray-500 text-xs">
-            종료시각:
-            {activity.stopped_at.toLocaleTimeString()}
+            종료시각: {HHMMSS(activity.stopped_at)}
           </p>
         )}
       </CardContent>
@@ -39,3 +37,7 @@ export default function ListCard({ activity }: { activity: Activity }) {
     </Card>
   );
 }
+
+const HHMMSS = (dateString: string) => {
+  return new Date(dateString).toLocaleTimeString("ko-KR");
+};
