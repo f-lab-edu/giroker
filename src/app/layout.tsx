@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import QueryClientProvider from "~/lib/QueryClientProvider";
 
 export const metadata: Metadata = {
   title: "giroker",
@@ -13,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="kr">
-      <body>{children}</body>
+      <body>
+        <QueryClientProvider>{children}</QueryClientProvider>
+      </body>
     </html>
   );
 }

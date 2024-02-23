@@ -1,8 +1,7 @@
 import ListCard from "../features/ListCard";
-import { Activity, getActivities } from "../model";
-import { repository } from "../repository";
+import { Activity } from "../model";
 
-export default async function ActivityList({
+export default function ActivityList({
   activities,
 }: {
   activities: Activity[];

@@ -7,8 +7,10 @@ import { Activity } from "../../model";
 
 export default function Timer({ activity }: { activity: Activity }) {
   const now = activity.stopped_at
-    ? Date.now() - activity.stopped_at.getTime()
-    : Date.now() - activity.started_at.getTime();
+    ? Date.now() - new Date(activity.stopped_at).getTime()
+    : activity.started_at
+    ? Date.now() - new Date(activity.started_at).getTime()
+    : 0;
 
   const { time, status, toggleTimer } = useTimer({
     now,

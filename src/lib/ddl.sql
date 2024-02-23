@@ -12,6 +12,7 @@ CREATE TABLE activities
   name VARCHAR(255) NOT NULL,
   description TEXT,
   memo TEXT,
+  created_at TIMESTAMPTZ,
   started_at TIMESTAMPTZ,
   stopped_at TIMESTAMPTZ,
   status status_enum DEFAULT 'idle' NOT NULL,

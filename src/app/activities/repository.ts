@@ -4,7 +4,13 @@ import { auth } from "~/lib/auth";
 
 export type ActivityRepository = {
   findById({ activityId }: { activityId: Activity["id"] }): Promise<Activity>;
-  findAll({ order }: { order: "asc" | "desc" }): Promise<Activity[]>;
+  findAll({
+    order,
+    date,
+  }: {
+    order: "asc" | "desc";
+    date?: Date;
+  }): Promise<Activity[]>;
   save({ activity }: { activity: Omit<Activity, "id"> }): Promise<void>;
   update({ activity }: { activity: Activity }): Promise<void>;
   start({
@@ -32,21 +38,35 @@ export const repository: ActivityRepository = {
     return result.rows[0] as unknown as Activity;
   },
 
-  async findAll({ order }) {
+  async findAll({ order, date }) {
     const session = await auth();
 
-    const result = await sql.query(
-      `SELECT * FROM activities WHERE "userId" = ${session.user.id} ORDER BY Id ${order}`,
-    );
+    const dateToYYYY_MM_DD = (date: Date) =>
+      date.toISOString().substring(0, 10);
 
+    const today = date ? dateToYYYY_MM_DD(date) : undefined;
+
+    let query = `SELECT * FROM activities WHERE "userId" = ${session.user.id}`;
+
+    if (date) {
+      // KR +9 tz
+      query += `
+            AND created_at >= DATE '${today} 15:00:00' 
+            AND created_at < DATE '${today} 15:00:00' + INTERVAL '1 day'`;
+    }
+
+    query += ` ORDER BY Id ${order}`;
+
+    const result = await sql.query(query);
     return result.rows as unknown as Activity[];
   },
 
   async save({ activity }: { activity: Omit<Activity, "id"> }) {
     const session = await auth();
+    const now = Date.now() / 1000.0;
 
-    await sql.query(`INSERT INTO activities ("userId", name, description)
-                     VALUES ('${session.user.id}', '${activity.name} ', '${activity.description}')`);
+    await sql.query(`INSERT INTO activities ("userId", name, description, created_at)
+                     VALUES ('${session.user.id}', '${activity.name} ', '${activity.description}', to_timestamp(${now}))`);
   },
 
   async update({ activity }: { activity: Activity }) {

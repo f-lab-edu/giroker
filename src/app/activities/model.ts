@@ -7,10 +7,11 @@ type Activity = {
   id: string;
   userId: string;
   name: string;
-  description: string;
-  memo: string;
-  started_at: Date;
-  stopped_at: Date;
+  description?: string;
+  memo?: string;
+  created_at: string;
+  started_at?: string;
+  stopped_at?: string;
   status: Status;
 };
 
@@ -40,12 +41,14 @@ async function getActivity({
 
 async function getActivities({
   order = "desc",
+  date,
   repository,
 }: {
   order?: "asc" | "desc";
+  date?: Date;
   repository: ActivityRepository;
 }) {
-  const result = await repository.findAll({ order });
+  const result = await repository.findAll({ order, date });
 
   return result;
 }
