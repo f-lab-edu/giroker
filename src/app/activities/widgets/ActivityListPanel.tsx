@@ -89,8 +89,8 @@ function CurrentTaskTime({ activities }: { activities: Activity[] }) {
           activities.reduce((time, activity) => {
             return activity.status === "stopped"
               ? time +
-                  (new Date(activity.stopped_at).getTime() -
-                    new Date(activity.started_at).getTime())
+                  (new Date(activity.stopped_at!).getTime() -
+                    new Date(activity.started_at!).getTime())
               : time;
           }, 0),
         )}
