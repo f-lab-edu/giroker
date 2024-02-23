@@ -7,10 +7,11 @@ type Activity = {
   id: string;
   userId: string;
   name: string;
-  description: string;
-  memo: string;
-  started_at: string;
-  stopped_at: string;
+  description?: string;
+  memo?: string;
+  created_at: string;
+  started_at?: string;
+  stopped_at?: string;
   status: Status;
 };
 
