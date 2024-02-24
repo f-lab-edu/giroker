@@ -21,6 +21,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { ActivitySchema, activitySchema } from "../model";
 import { createActivityAction } from "../action";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function ActivityAddButton() {
   const form = useForm<ActivitySchema>({
@@ -31,6 +32,8 @@ export default function ActivityAddButton() {
     },
     mode: "onChange",
   });
+
+  const queryClient = useQueryClient();
 
   return (
     <Popover>
@@ -44,6 +47,9 @@ export default function ActivityAddButton() {
           <form
             action={async (formData) => {
               await createActivityAction(formData);
+              queryClient.invalidateQueries({
+                queryKey: ["activities", "list"],
+              });
               form.reset({ name: "", description: "" });
             }}
             className="space-y-2"

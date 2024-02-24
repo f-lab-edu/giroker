@@ -24,7 +24,7 @@ export default function ActivityListPanel({
   }, []);
 
   const result = useSuspenseQuery({
-    queryKey: ["activities", date, mounted],
+    queryKey: ["activities", "list", date, mounted],
     queryFn: async () => {
       if (!mounted) {
         return _activities;
