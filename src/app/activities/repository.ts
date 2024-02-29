@@ -44,13 +44,16 @@ export const repository: ActivityRepository = {
     // converted to YYYY-MM-DD
     const YYYYMMDD = (date: Date) => date.toISOString().substring(0, 10);
 
-    const today = date ? YYYYMMDD(date) : YYYYMMDD(new Date());
+    const krTime = 9 * 60 * 60 * 1000;
+    const today = date
+      ? YYYYMMDD(new Date(date.getTime() - krTime))
+      : YYYYMMDD(new Date());
 
     // fragment is not supported yet, so use sql.query
     // https://github.com/vercel/storage/issues/495
     const result = await sql.query(
       `SELECT * FROM activities WHERE "userId" = ${session.user.id} 
-        AND created_at >= '${today} 15:00:00'
+        AND created_at >= DATE '${today} 15:00:00'
         AND created_at < DATE '${today} 15:00:00' + INTERVAL '1 day'
         ORDER BY Id ${order}`,
     );
@@ -61,8 +64,12 @@ export const repository: ActivityRepository = {
     const session = await auth();
     const now = Date.now() / 1000.0;
 
-    await sql`INSERT INTO activities ("userId", name, description, created_at)
-                     VALUES ('${session.user.id}', '${activity.name} ', '${activity.description}', to_timestamp(${now}))`;
+    await sql.query(
+      `INSERT INTO activities ("userId", name, description, created_at)
+                     VALUES ($1, $2, $3, to_timestamp($4))`,
+
+      [session.user.id, activity.name, activity.description, now],
+    );
   },
 
   async update({ activity }: { activity: Activity }) {

@@ -1,6 +1,3 @@
-"use client";
-
-import { useRouter } from "next/navigation";
 import React from "react";
 import { PlayIcon } from "~/components/icons";
 import { Button } from "~/components/ui/button";
@@ -12,16 +9,13 @@ export default function PlayButton(
 ) {
   const { activity, ...rest } = props;
 
-  const router = useRouter();
-
-  function handleStartActivity() {
+  const startActivity = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     startActivityAction({ activityId: activity.id });
-
-    router.push(`/activities/${activity.id}`);
-  }
+  };
 
   return (
-    <Button {...rest} onClick={handleStartActivity}>
+    <Button {...rest} onClick={startActivity}>
       <PlayIcon />
     </Button>
   );

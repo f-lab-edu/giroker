@@ -19,16 +19,17 @@ export default function ActivityListPanel({
   activities: Activity[];
 }) {
   const router = useRouter();
+
+  const krTime = 9 * 60 * 60 * 1000;
   const yesterday = dateToYYYYMMDD(
-    new Date(date.getTime() - 24 * 60 * 60 * 1000),
+    new Date(date.getTime() + krTime - 24 * 60 * 60 * 1000),
   );
   const tomorrow = dateToYYYYMMDD(
-    new Date(date.getTime() + 24 * 60 * 60 * 1000),
+    new Date(date.getTime() + krTime + 24 * 60 * 60 * 1000),
   );
 
   return (
     <div className="flex flex-col items-center w-full gap-y-4">
-      <div></div>
       <div className="flex flex-col w-full ">
         <form>
           <div className="flex w-full justify-between items-center py-2">
@@ -67,9 +68,9 @@ function CurrentTaskTime({ activities }: { activities: Activity[] }) {
       <p className="text-2xl">
         {milliSecondsToHHMMSS(
           activities.reduce((time, activity) => {
-            return activity.status === "stopped"
+            return activity.stopped_at && activity.started_at
               ? time +
-                  (new Date(activity.stopped_at!).getTime() -
+                  (new Date(activity.stopped_at).getTime() -
                     new Date(activity.started_at!).getTime())
               : time;
           }, 0),

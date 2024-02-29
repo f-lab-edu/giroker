@@ -4,7 +4,7 @@ import { getActivity } from "../model";
 import Timer from "./features/Timer";
 import { repository } from "../repository";
 
-export default async function ActivitiesStartPage({
+export default async function ActivitiesPage({
   params,
 }: {
   params: { "activity-id": string };

@@ -17,6 +17,7 @@ export async function createActivityAction(formData: FormData) {
   >;
 
   await createActivity({ activity: data, repository });
+
   revalidatePath("/");
 }
 
@@ -37,6 +38,8 @@ export async function startActivityAction({
     activityId,
     repository,
   });
+
+  revalidatePath("/");
 }
 
 export async function stopActivityAction({
@@ -48,4 +51,6 @@ export async function stopActivityAction({
     activityId,
     repository,
   });
+
+  revalidatePath("/");
 }

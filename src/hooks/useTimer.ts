@@ -4,6 +4,7 @@ import {
   startActivityAction,
   stopActivityAction,
 } from "~/app/activities/action";
+import { Activity } from "~/app/activities/model";
 
 /**
  * ```ts
@@ -12,27 +13,39 @@ import {
  * time -> 00:01:00
  * ```
  */
-export default function useTimer({ now }: { now: number }) {
+export default function useTimer({
+  now,
+  activity,
+}: {
+  now: number;
+  activity: Activity;
+}) {
   const [time, setTime] = useState(now / 1000);
   const [id, setId] = useState<NodeJS.Timeout>();
-  const [status, setStatus] = useState<"play" | "pause">("play");
+  const [status, setStatus] = useState<"play" | "pause">(
+    activity.status === "playing" ? "play" : "pause",
+  );
 
   const params = useParams();
   const activityId = params["activity-id"] as string;
 
   useEffect(() => {
+    if (activity.status !== "playing") {
+      return;
+    }
+
     const id = setInterval(() => {
       setTime((time) => time + 1);
     }, 1000);
 
     setId(id);
 
-    startActivityAction({ activityId });
-
     return () => {
-      clearInterval(id);
+      if (id) {
+        clearInterval(id);
+      }
     };
-  }, [activityId]);
+  }, [activity.status, activityId]);
 
   const secondsToHHMMSS = (seconds: number) => {
     const h = Math.floor(seconds / 3600);
@@ -47,6 +60,7 @@ export default function useTimer({ now }: { now: number }) {
     }, 1000);
 
     setId(id);
+    setStatus("play");
 
     startActivityAction({ activityId });
   };
@@ -54,19 +68,19 @@ export default function useTimer({ now }: { now: number }) {
   const stop = () => {
     clearInterval(id);
 
+    setStatus("pause");
+
     stopActivityAction({ activityId });
   };
 
   const toggleTimer = () => {
     if (status === "play") {
       stop();
-      setStatus("pause");
       return;
     }
 
     if (status === "pause") {
       start();
-      setStatus("play");
       return;
     }
   };
