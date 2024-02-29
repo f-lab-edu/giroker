@@ -1,82 +1,62 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { Suspense, useEffect, useState } from "react";
-import { getBaseURL } from "~/constants/env";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 import AddButton from "../features/AddButton";
-import DateController from "../features/DateController";
 import { Activity } from "../model";
 import ActivityList from "./ActivityList";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export type ControllDateCursor = "calendar" | "yesterday" | "tomorrow";
 
 export default function ActivityListPanel({
+  date,
   activities,
 }: {
+  date: Date;
   activities: Activity[];
 }) {
-  const [mounted, setMounted] = useState(false);
-  const [_activities, setActivities] = useState(activities);
-  const [date, setDate] = useState(new Date());
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const result = useSuspenseQuery({
-    queryKey: ["activities", "list", date, mounted],
-    queryFn: async () => {
-      if (!mounted) {
-        return _activities;
-      }
-
-      const res = await fetch(
-        `${getBaseURL()}/api/activities?when=${dateToYYYY_MM_DD(date)}`,
-      );
-
-      const data = await res.json();
-
-      return data;
-    },
-  });
-
-  const controllDate = (
-    e:
-      | React.MouseEvent<HTMLButtonElement>
-      | React.ChangeEvent<HTMLInputElement>,
-    cursor: ControllDateCursor,
-  ) => {
-    e.preventDefault();
-
-    if (cursor === "calendar") {
-      const target = e.target as HTMLInputElement;
-
-      setDate(new Date(target.value));
-    }
-
-    if (cursor === "yesterday") {
-      setDate((prev) => new Date(new Date(prev).setDate(prev.getDate() - 1)));
-    }
-
-    if (cursor === "tomorrow") {
-      setDate((prev) => new Date(new Date(prev).setDate(prev.getDate() + 1)));
-    }
-  };
-
-  useEffect(() => {
-    setActivities(result.data);
-  }, [date, result.data]);
+  const router = useRouter();
+  const yesterday = dateToYYYYMMDD(
+    new Date(date.getTime() - 24 * 60 * 60 * 1000),
+  );
+  const tomorrow = dateToYYYYMMDD(
+    new Date(date.getTime() + 24 * 60 * 60 * 1000),
+  );
 
   return (
-    <Suspense fallback={undefined}>
-      <div className="flex flex-col items-center w-full gap-y-4">
-        <DateController date={date} controllDate={controllDate} />
-        <CurrentTaskTime activities={_activities} />
-        <hr className="text-gray-500 w-full" />
-        <AddButton />
-        <ActivityList activities={_activities} />
+    <div className="flex flex-col items-center w-full gap-y-4">
+      <div></div>
+      <div className="flex flex-col w-full ">
+        <form>
+          <div className="flex w-full justify-between items-center py-2">
+            <Link href={`/?date=${yesterday}`}>
+              <Button variant="outline">
+                <ChevronLeftIcon className="w-3 h-3" />
+              </Button>
+            </Link>
+            <div className="w-1/2 m-auto">
+              <Input
+                type="date"
+                value={time(date)}
+                onChange={(e) => router.push(`?date=${e.currentTarget.value}`)}
+              />
+            </div>
+            <Link href={`/?date=${tomorrow}`}>
+              <Button variant="outline">
+                <ChevronRightIcon className="w-3 h-3" />
+              </Button>
+            </Link>
+          </div>
+        </form>
       </div>
-    </Suspense>
+      <CurrentTaskTime activities={activities} />
+      <hr className="text-gray-500 w-full" />
+      <AddButton initialActivities={activities} />
+      <ActivityList activities={activities} />
+    </div>
   );
 }
 
@@ -107,5 +87,13 @@ const milliSecondsToHHMMSS = (milliSeconds: number) => {
   return [h, m, s].map((v) => (v < 10 ? "0" + v : v)).join(":");
 };
 
-const dateToYYYY_MM_DD = (date: Date) =>
+const dateToYYYYMMDD = (date: Date) =>
   new Date(date).toISOString().substring(0, 10);
+
+const time = (date: Date) => {
+  const YY = date.getFullYear();
+  const MM = date.getMonth() + 1;
+  const DD = date.getDate();
+
+  return `${YY}-${MM < 10 ? "0" + MM : MM}-${DD < 10 ? "0" + DD : DD}`;
+};

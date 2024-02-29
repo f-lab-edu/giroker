@@ -19,11 +19,15 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { ActivitySchema, activitySchema } from "../model";
+import { Activity, ActivitySchema, activitySchema } from "../model";
 import { createActivityAction } from "../action";
-import { useQueryClient } from "@tanstack/react-query";
+import React from "react";
 
-export default function ActivityAddButton() {
+export default function AddButton({
+  initialActivities,
+}: {
+  initialActivities?: Activity[];
+}) {
   const form = useForm<ActivitySchema>({
     resolver: zodResolver(activitySchema),
     defaultValues: {
@@ -32,8 +36,6 @@ export default function ActivityAddButton() {
     },
     mode: "onChange",
   });
-
-  const queryClient = useQueryClient();
 
   return (
     <Popover>
@@ -47,9 +49,6 @@ export default function ActivityAddButton() {
           <form
             action={async (formData) => {
               await createActivityAction(formData);
-              queryClient.invalidateQueries({
-                queryKey: ["activities", "list"],
-              });
               form.reset({ name: "", description: "" });
             }}
             className="space-y-2"
