@@ -9,7 +9,10 @@ export type ActivityRepository = {
     date,
   }: {
     order: "asc" | "desc";
-    date?: Date;
+    /**
+     * @param date YYYY-MM-DD
+     * */
+    date: string;
   }): Promise<Activity[]>;
   save({ activity }: { activity: Omit<Activity, "id"> }): Promise<void>;
   update({ activity }: { activity: Activity }): Promise<void>;
@@ -41,20 +44,12 @@ export const repository: ActivityRepository = {
   async findAll({ order, date }) {
     const session = await auth();
 
-    // converted to YYYY-MM-DD
-    const YYYYMMDD = (date: Date) => date.toISOString().substring(0, 10);
-
-    const krTime = 9 * 60 * 60 * 1000;
-    const today = date
-      ? YYYYMMDD(new Date(date.getTime() - krTime))
-      : YYYYMMDD(new Date());
-
     // fragment is not supported yet, so use sql.query
     // https://github.com/vercel/storage/issues/495
     const result = await sql.query(
       `SELECT * FROM activities WHERE "userId" = ${session.user.id} 
-        AND created_at >= DATE '${today} 15:00:00'
-        AND created_at < DATE '${today} 15:00:00' + INTERVAL '1 day'
+        AND created_at >= DATE '${date} 15:00:00'
+        AND created_at < DATE '${date} 15:00:00' + INTERVAL '1 day'
         ORDER BY Id ${order}`,
     );
     return result.rows as unknown as Activity[];

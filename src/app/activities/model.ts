@@ -48,7 +48,15 @@ async function getActivities({
   date?: Date;
   repository: ActivityRepository;
 }) {
-  const result = await repository.findAll({ order, date });
+  // converted to YYYY-MM-DD
+  const YYYYMMDD = (date: Date) => date.toISOString().substring(0, 10);
+
+  const day = 24 * 60 * 60 * 1000;
+  const today = YYYYMMDD(
+    date ? new Date(date.getTime() - day) : new Date(Date.now() - day),
+  );
+
+  const result = await repository.findAll({ order, date: today });
 
   return result;
 }
