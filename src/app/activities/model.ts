@@ -51,10 +51,18 @@ async function getActivities({
   // converted to YYYY-MM-DD
   const YYYYMMDD = (date: Date) => date.toISOString().substring(0, 10);
 
-  const day = 24 * 60 * 60 * 1000;
-  const today = YYYYMMDD(
-    date ? new Date(date.getTime() - day) : new Date(Date.now() - day),
+  const KRTZ = 9 * 60 * 60 * 1000;
+
+  const dateTime = date
+    ? new Date(date.getTime() + KRTZ)
+    : new Date(Date.now() + KRTZ);
+  const targetDate = new Date(
+    new Date(dateTime).setDate(dateTime.getDate() - 1),
   );
+
+  // ex) today === '2024-03-01', target = today - 1 day => '2024-02-29'
+  // query => '2024-02-29 15:00:00' ~ '2024-03-01 15:00:00'
+  const today = YYYYMMDD(targetDate);
 
   const result = await repository.findAll({ order, date: today });
 
