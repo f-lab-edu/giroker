@@ -48,8 +48,8 @@ export const repository: ActivityRepository = {
     // https://github.com/vercel/storage/issues/495
     const result = await sql.query(
       `SELECT * FROM activities WHERE "userId" = ${session.user.id} 
-        AND created_at >= DATE '${date} 15:00:00'
-        AND created_at < DATE '${date} 15:00:00' + INTERVAL '1 day'
+        AND created_at >= TIMESTAMP '${date} 15:00:00'
+        AND created_at < TIMESTAMP '${date} 15:00:00' + INTERVAL '1 day'
         ORDER BY Id ${order}`,
     );
     return result.rows as unknown as Activity[];
