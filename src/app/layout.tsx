@@ -15,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body>
-        <QueryClientProvider>{children}</QueryClientProvider>
+        <main>
+          <QueryClientProvider>{children}</QueryClientProvider>
+        </main>
       </body>
     </html>
   );
