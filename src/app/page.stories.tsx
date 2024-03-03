@@ -15,7 +15,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Normal: Story = {
+export const Page: Story = {
   args: { searchParams: { date: "2024-03-01" } },
   parameters: {
     moduleMock: {
