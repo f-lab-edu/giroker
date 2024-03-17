@@ -10,13 +10,8 @@ import {
 } from "./model";
 import { repository } from "./repository";
 
-export async function createActivityAction(formData: FormData) {
-  const data = Object.fromEntries(formData.entries()) as unknown as Omit<
-    Activity,
-    "id"
-  >;
-
-  await createActivity({ activity: data, repository });
+export async function createActivityAction(activity: Activity) {
+  await createActivity({ activity, repository });
 
   revalidatePath("/");
 }
