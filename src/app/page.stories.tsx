@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { createMock } from "storybook-addon-module-mock";
 import MainPage from "~/app/page";
 
+import { createMock } from "storybook-addon-module-mock";
 import * as model from "~/app/activities/model";
 import * as auth from "~/lib/auth";
 
@@ -20,8 +20,8 @@ export const Page: Story = {
   parameters: {
     moduleMock: {
       mock: () => {
+        const activitiesMock = createMock(model, "getActivities");
         const authMock = createMock(auth, "auth");
-        const mock = createMock(model, "getActivities");
 
         const activities: model.Activity[] = [
           {
@@ -34,7 +34,7 @@ export const Page: Story = {
           },
         ];
 
-        mock.mockReturnValue(Promise.resolve(activities));
+        activitiesMock.mockReturnValue(Promise.resolve(activities));
 
         const user = {
           user: {
@@ -45,7 +45,7 @@ export const Page: Story = {
 
         authMock.mockReturnValue(Promise.resolve(user));
 
-        return mock;
+        return [activitiesMock, authMock];
       },
     },
   },

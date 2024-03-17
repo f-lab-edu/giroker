@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AddIcon } from "~/components/icons";
@@ -24,9 +22,9 @@ import { createActivityAction } from "../action";
 import React from "react";
 
 export default function AddButton({
-  initialActivities,
+  addOptimisticActivities,
 }: {
-  initialActivities?: Activity[];
+  addOptimisticActivities: (activity: Activity) => void;
 }) {
   const form = useForm<ActivitySchema>({
     resolver: zodResolver(activitySchema),
@@ -48,7 +46,11 @@ export default function AddButton({
         <Form {...form}>
           <form
             action={async (formData) => {
-              await createActivityAction(formData);
+              const activity = Object.fromEntries(
+                formData.entries(),
+              ) as Activity;
+              addOptimisticActivities(activity);
+              await createActivityAction(activity);
               form.reset({ name: "", description: "" });
             }}
             className="space-y-2"

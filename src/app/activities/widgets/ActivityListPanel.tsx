@@ -1,5 +1,6 @@
 "use client";
 
+import { useOptimistic } from "react";
 import AddButton from "../features/AddButton";
 import DateController from "../features/DateController";
 import { Activity } from "../model";
@@ -19,8 +20,7 @@ export default function ActivityListPanel({
       <DateController date={date} />
       <CurrentTaskTime activities={activities} />
       <hr className="text-gray-500 w-full" />
-      <AddButton initialActivities={activities} />
-      <ActivityList activities={activities} />
+      <AddButtonAndActivityList activities={activities} />
     </div>
   );
 }
@@ -41,6 +41,22 @@ function CurrentTaskTime({ activities }: { activities: Activity[] }) {
         )}
       </p>
     </div>
+  );
+}
+
+function AddButtonAndActivityList({ activities }: { activities: Activity[] }) {
+  const [optimisticActivities, addOptimisticActivites] = useOptimistic(
+    activities,
+    (currentActivities, newActivity) => {
+      return [newActivity, ...currentActivities] as Activity[];
+    },
+  );
+
+  return (
+    <>
+      <AddButton addOptimisticActivities={addOptimisticActivites} />
+      <ActivityList activities={optimisticActivities} />
+    </>
   );
 }
 
