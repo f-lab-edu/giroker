@@ -14,7 +14,7 @@ export default async function ActivitiesPage({
   const activity = await getActivity({ repository, activityId });
 
   return (
-    <BasicLayout classname="max-w-full">
+    <BasicLayout className="max-w-full">
       {!activity ? (
         "존재하지 않는 작업이에요!"
       ) : (

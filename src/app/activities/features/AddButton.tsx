@@ -22,9 +22,9 @@ import { createActivityAction } from "../action";
 import React from "react";
 
 export default function AddButton({
-  addOptimisticActivites,
+  addOptimisticActivities,
 }: {
-  addOptimisticActivites: (activity: Activity) => void;
+  addOptimisticActivities: (activity: Activity) => void;
 }) {
   const form = useForm<ActivitySchema>({
     resolver: zodResolver(activitySchema),
@@ -49,7 +49,7 @@ export default function AddButton({
               const activity = Object.fromEntries(
                 formData.entries(),
               ) as Activity;
-              addOptimisticActivites(activity);
+              addOptimisticActivities(activity);
               await createActivityAction(activity);
               form.reset({ name: "", description: "" });
             }}

@@ -54,7 +54,7 @@ function AddButtonAndActivityList({ activities }: { activities: Activity[] }) {
 
   return (
     <>
-      <AddButton addOptimisticActivites={addOptimisticActivites} />
+      <AddButton addOptimisticActivities={addOptimisticActivites} />
       <ActivityList activities={optimisticActivities} />
     </>
   );
