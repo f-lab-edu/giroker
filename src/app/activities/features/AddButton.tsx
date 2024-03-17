@@ -60,7 +60,7 @@ export default function AddButton({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>이름 *</FormLabel>
+                  <FormLabel>활동 이름 추가하기*</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -73,7 +73,7 @@ export default function AddButton({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>설명</FormLabel>
+                  <FormLabel>설명 추가하기</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

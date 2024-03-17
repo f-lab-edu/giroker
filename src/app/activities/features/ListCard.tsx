@@ -47,5 +47,8 @@ export default function ListCard({ activity }: { activity: Activity }) {
 }
 
 const HHMMSS = (dateString: string) => {
-  return new Date(dateString).toLocaleTimeString("ko-KR");
+  const date = new Date(dateString);
+  date.setHours(date.getHours() + 9);
+
+  return date.toISOString().substring(11, 19);
 };

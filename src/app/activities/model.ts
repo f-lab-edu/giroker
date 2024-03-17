@@ -21,8 +21,8 @@ const activitySchema = z.object({
   name: z
     .string()
     .min(1, { message: "1자 이상으로 설정해주세요" })
-    .max(30, { message: "30자 이하로 설정해주세요" }),
-  description: z.string().max(80, { message: "80자 이하로 설정해주세요" }),
+    .max(100, { message: "100자 이하로 설정해주세요" }),
+  description: z.string().max(300, { message: "300자 이하로 설정해주세요" }),
 });
 
 const ACTIVITES = "activities";
