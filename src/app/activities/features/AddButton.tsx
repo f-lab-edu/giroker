@@ -42,7 +42,7 @@ export default function AddButton({
           <AddIcon />
         </Button>
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent avoidCollisions={false}>
         <Form {...form}>
           <form
             action={async (formData) => {

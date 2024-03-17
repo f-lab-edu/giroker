@@ -10,7 +10,7 @@ import PostgresAdapter from "@auth/pg-adapter";
 import { Pool } from "pg";
 import { Adapter } from "next-auth/adapters";
 
-import { DB, GOOGLE } from "~/constants/env";
+import { DB, GOOGLE, IS_API_MOCKING } from "~/constants/env";
 import { redirect } from "next/navigation";
 import { SIGNIN } from "~/constants/route";
 
@@ -62,6 +62,18 @@ export async function auth(
     | []
 ) {
   const session = await getServerSession(...args, config);
+
+  if (IS_API_MOCKING) {
+    return {
+      user: {
+        name: "Byonghun Lee",
+        email: "dlqud19@gmail.com",
+        image:
+          "https://lh3.googleusercontent.com/a/ACg8ocK2wO1MZUvKiFPQFO_f99Ryekp_w4I1BPqO8Ardj8Fl=s96-c",
+        id: "3",
+      },
+    };
+  }
 
   if (!session) {
     redirect(SIGNIN);

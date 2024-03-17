@@ -5,6 +5,8 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { cn } from "~/lib/utils";
+import { isAndroid } from "~/constants/ua";
 
 export default function DateController({ date }: { date: Date }) {
   const router = useRouter();
@@ -30,6 +32,7 @@ export default function DateController({ date }: { date: Date }) {
               type="date"
               value={time(date)}
               onChange={(e) => router.push(`?date=${e.currentTarget.value}`)}
+              className={cn(isAndroid() && "appearance-none")}
             />
           </div>
           <Link href={`/?date=${tomorrow}`}>
