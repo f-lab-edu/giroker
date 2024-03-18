@@ -13,10 +13,15 @@ import Link from "next/link";
 import { cn } from "~/lib/utils";
 
 export default function ListCard({ activity }: { activity: Activity }) {
+  const disabled = !activity.id;
+  const disabledTabIndex = disabled ? -1 : 0;
+
   return (
     <Link
       href={`/activities/${activity.id}`}
-      className={cn(!activity.id && "pointer-events-none")}
+      tabIndex={disabledTabIndex}
+      aria-disabled={disabled}
+      className={cn(disabled && "pointer-events-none")}
     >
       <Card className="w-full">
         <CardHeader>
@@ -40,9 +45,9 @@ export default function ListCard({ activity }: { activity: Activity }) {
         </CardContent>
         <CardFooter className="justify-end gap-x-2">
           {activity.status === "playing" ? (
-            <StopButton activity={activity} />
+            <StopButton activity={activity} tabIndex={disabledTabIndex} />
           ) : (
-            <PlayButton activity={activity} />
+            <PlayButton activity={activity} tabIndex={disabledTabIndex} />
           )}
         </CardFooter>
       </Card>
