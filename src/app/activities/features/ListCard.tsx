@@ -10,10 +10,14 @@ import PlayButton from "./PlayButton";
 import { type Activity } from "../model";
 import StopButton from "./StopButton";
 import Link from "next/link";
+import { cn } from "~/lib/utils";
 
 export default function ListCard({ activity }: { activity: Activity }) {
   return (
-    <Link href={`/activities/${activity.id}`}>
+    <Link
+      href={`/activities/${activity.id}`}
+      className={cn(!activity.id && "pointer-events-none")}
+    >
       <Card className="w-full">
         <CardHeader>
           {activity.status === "playing" && (

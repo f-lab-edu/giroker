@@ -1,4 +1,3 @@
-import { useId } from "react";
 import ListCard from "../features/ListCard";
 import { Activity } from "../model";
 
@@ -7,8 +6,6 @@ export default function ActivityList({
 }: {
   activities: Activity[];
 }) {
-  const id = useId();
-
   if (!activities?.length) {
     return <div>추가된 활동이 없어요</div>;
   }
@@ -32,7 +29,7 @@ export default function ActivityList({
         }
 
         return (
-          <li key={activity.id ?? id} className="w-full">
+          <li key={activity.id} className="w-full">
             <ListCard activity={activity} />
           </li>
         );
